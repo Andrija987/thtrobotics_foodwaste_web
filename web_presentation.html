@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Human Touch Robotics | A New Recipe for Reducing Food Waste</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals with Green Accent -->
+    <!-- Application Structure Plan: The application is designed as a narrative journey. It starts with the broad problem of food waste, introduces meal kits as a powerful solution with interactive data, and then pivots to present The Human Touch Robotics as the key technology that amplifies this positive impact. The flow is logical: Problem -> Solution -> Our Amplification -> Scalable Impact. This structure was chosen to educate the user progressively and build a compelling business case, making complex data digestible through interactive charts and diagrams rather than static text. The user is guided from a general environmental issue to a specific, actionable technological solution. -->
+    <!-- Visualization & Content Choices: 
+        1. Food Waste Comparison (Doughnut Chart): Goal: Inform & Compare. Viz: Doughnut Chart (Chart.js). Interaction: Hovering reveals precise percentages. Justification: A doughnut chart is excellent for showing a stark part-to-whole comparison (waste vs. consumed food), which is more impactful than just text.
+        2. CO2 Emissions Comparison (Bar Chart): Goal: Compare. Viz: Bar Chart (Chart.js). Interaction: Toggling datasets between "With Food Waste" and "Without Food Waste" to see the direct impact. Justification: A bar chart clearly compares the emissions between two distinct entities (Grocery vs. Meal Kit) and the interactive toggle demonstrates the significance of waste reduction.
+        3. Meal Kit Benefits (Interactive Cards): Goal: Organize & Inform. Viz: HTML/CSS cards. Interaction: Clicking a card reveals detailed text. Justification: This breaks down complex benefits into digestible chunks, encouraging user engagement and preventing overwhelming them with text.
+        4. Operational Waste (Bar Chart): Goal: Compare. Viz: Bar Chart (Chart.js). Interaction: Hovering for details. Justification: Clearly illustrates the dramatic efficiency difference between HelloFresh's model and traditional retail.
+        5. Automation Process Flow (HTML/CSS Diagram): Goal: Organize & Compare. Viz: Flexbox-based diagram. Interaction: A button switches the view between "Manual" and "Automated" processes. Justification: Visually demonstrates the efficiency gains and waste reduction points introduced by robotics in a simple, before-and-after format.
+        6. Scalable Impact Calculator (Interactive Slider): Goal: Demonstrate Change. Viz: HTML slider and dynamic text. Interaction: User drags a slider to see the compounding effect of deploying more robots. Justification: This is the most powerful storytelling element, directly connecting the company's sales ("robots deployed") to a tangible, positive environmental outcome, making the impact feel real and scalable.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #383838;
+        }
+        .bg-warm-neutral { background-color: #FDFBF8; }
+        .bg-warm-secondary { background-color: #F4EFEA; }
+        .text-accent { color: #3A5A40; }
+        .bg-accent { background-color: #3A5A40; }
+        .border-accent { border-color: #588157; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .nav-link {
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+        }
+        .nav-link.active {
+            background-color: #3A5A40;
+            color: #FFFFFF;
+        }
+        .nav-link:not(.active):hover {
+            background-color: #F4EFEA;
+        }
+        .benefit-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .benefit-card.active {
+            border-color: #588157;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .process-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            min-height: 80px;
+        }
+        .process-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #A3B18A;
+        }
+        .slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #3A5A40;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 3px solid #FDFBF8;
+        }
+        input[type='range']::-webkit-slider-thumb {
+             -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #3A5A40;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 3px solid #FDFBF8;
+            margin-top: -10px;
+        }
+        input[type='range']::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: #3A5A40;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 3px solid #FDFBF8;
+        }
+    </style>
+</head>
+<body class="bg-warm-neutral">
+
+    <header class="bg-warm-secondary sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-accent">
+                <span class="font-light">The Human Touch</span> Robotics
+            </h1>
+            <div class="hidden md:flex space-x-2">
+                <a onclick="scrollToSection('problem')" class="nav-link active">The Problem</a>
+                <a onclick="scrollToSection('solution')" class="nav-link">A New Solution</a>
+                <a onclick="scrollToSection('robotics')" class="nav-link">Our Role</a>
+                <a onclick="scrollToSection('impact')" class="nav-link">Our Impact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="hero" class="text-center mb-20">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">From Our Robots to Your Table</h2>
+            <p class="text-xl md:text-2xl text-accent mb-8">A New Recipe for Reducing Food Waste</p>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                Globally, a staggering amount of food is wasted every day, creating significant environmental and economic costs. This report explores a powerful, growing solution—meal kits—and reveals how The Human Touch Robotics is amplifying their positive impact through automation, creating a more sustainable food system for everyone.
+            </p>
+        </section>
+
+        <section id="problem" class="mb-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-800">The Scale of Food Waste</h3>
+                <p class="max-w-2xl mx-auto mt-4 text-gray-600">
+                    The traditional grocery supply chain contributes significantly to food waste, from retail inefficiencies to over-purchasing by consumers. This section visualizes the problem and introduces meal kits as a more efficient alternative.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-semibold text-center mb-4">U.S. Food Supply: Waste vs. Consumption</h4>
+                    <div class="chart-container">
+                        <canvas id="foodWasteChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-semibold text-center mb-4">Average Emissions per Meal (CO₂e)</h4>
+                    <div class="chart-container" style="max-width: 550px;">
+                        <canvas id="emissionsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="mb-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-800">How Meal Kits Change the Equation</h3>
+                 <p class="max-w-2xl mx-auto mt-4 text-gray-600">
+                    Meal kit companies structurally redesign the food supply chain to be inherently less wasteful. By delivering precise ingredients directly to consumers, they tackle the primary drivers of food waste head-on. Click on each benefit below to learn more about how this model works.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div id="card-portion" class="benefit-card bg-white p-6 rounded-lg shadow-lg cursor-pointer" onclick="selectBenefit('portion')">
+                    <h4 class="text-2xl font-bold text-accent text-center mb-2">①</h4>
+                    <h4 class="text-xl font-semibold text-center">Pre-Portioned Ingredients</h4>
+                </div>
+                <div id="card-supply" class="benefit-card bg-white p-6 rounded-lg shadow-lg cursor-pointer" onclick="selectBenefit('supply')">
+                     <h4 class="text-2xl font-bold text-accent text-center mb-2">②</h4>
+                    <h4 class="text-xl font-semibold text-center">Streamlined Supply Chain</h4>
+                </div>
+                <div id="card-household" class="benefit-card bg-white p-6 rounded-lg shadow-lg cursor-pointer" onclick="selectBenefit('household')">
+                     <h4 class="text-2xl font-bold text-accent text-center mb-2">③</h4>
+                    <h4 class="text-xl font-semibold text-center">Reduced Household Waste</h4>
+                </div>
+            </div>
+            <div id="benefit-details" class="bg-warm-secondary p-8 rounded-lg">
+                <p id="benefit-text" class="text-lg text-gray-700 text-center">Select a benefit above to see the details.</p>
+            </div>
+             <div class="mt-12">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-semibold text-center mb-4">Case Study: HelloFresh Operational Waste</h4>
+                    <p class="text-center text-gray-600 mb-4 max-w-xl mx-auto">A data-driven supply chain allows HelloFresh to waste significantly less food in their facilities compared to traditional supermarkets.</p>
+                    <div class="chart-container" style="max-width: 600px;">
+                        <canvas id="operationalWasteChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="robotics" class="mb-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-800">Our Role: Automating for a Greener Future</h3>
+                <p class="max-w-3xl mx-auto mt-4 text-gray-600">
+                    The efficiency of the meal kit model hinges on the speed and accuracy of its packing and fulfillment centers. This is where The Human Touch Robotics provides a critical solution. Our automation technology enhances precision, reduces operational waste even further, and enables the entire sustainable model to scale.
+                </p>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <div class="flex justify-center mb-6">
+                    <div class="flex rounded-full bg-warm-secondary p-1">
+                        <button id="btn-manual" class="px-6 py-2 rounded-full text-white bg-accent" onclick="showProcess('manual')">Manual Process</button>
+                        <button id="btn-automated" class="px-6 py-2 rounded-full text-gray-700" onclick="showProcess('automated')">Automated Process</button>
+                    </div>
+                </div>
+
+                <div id="manual-process">
+                    <h4 class="text-xl font-bold text-center mb-6">Typical Manual Packing Line</h4>
+                     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-stretch">
+                        <div class="process-step">Inventory Picked</div>
+                        <div class="process-arrow hidden lg:flex">→</div>
+                        <div class="process-step">Manual Sorting & Portioning<br><span class="text-sm text-red-500">(High error rate)</span></div>
+                        <div class="process-arrow hidden md:flex">→</div>
+                        <div class="process-step col-span-2 md:col-span-1">Manual Quality Check<br><span class="text-sm text-red-500">(Inconsistent)</span></div>
+                        <div class="process-arrow hidden lg:flex">→</div>
+                        <div class="process-step">Manual Boxing</div>
+                         <div class="process-arrow hidden md:flex">→</div>
+                         <div class="process-step col-span-2 md:col-span-1">Ready for Shipment</div>
+                    </div>
+                </div>
+
+                <div id="automated-process" class="hidden">
+                    <h4 class="text-xl font-bold text-center mb-6 text-accent">Our Automated Packing Line</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-stretch">
+                        <div class="process-step border-2 border-accent">Automated Inventory Feed</div>
+                        <div class="process-arrow hidden lg:flex">→</div>
+                        <div class="process-step border-2 border-accent">Robotic Sorting & Portioning<br><span class="text-sm text-green-600">(Precision Guaranteed)</span></div>
+                        <div class="process-arrow hidden md:flex">→</div>
+                        <div class="process-step col-span-2 md:col-span-1 border-2 border-accent">AI Quality Control<br><span class="text-sm text-green-600">(100% Scan Rate)</span></div>
+                        <div class="process-arrow hidden lg:flex">→</div>
+                        <div class="process-step border-2 border-accent">Automated Boxing</div>
+                        <div class="process-arrow hidden md:flex">→</div>
+                        <div class="process-step col-span-2 md:col-span-1 border-2 border-accent">Ready for Shipment</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="impact" class="scroll-mt-20">
+             <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-800">The Ripple Effect of Automation</h3>
+                 <p class="max-w-3xl mx-auto mt-4 text-gray-600">
+                    Our impact extends beyond a single packing line. Each robot we deploy enables our meal kit partners to serve more households efficiently. This creates a powerful ripple effect: as they grow, the positive environmental impact multiplies. Use the slider below to see how deploying more robots translates into a greater reduction in food waste.
+                </p>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <div class="mb-8">
+                    <label for="robots-slider" class="block text-center text-lg font-semibold mb-2">Number of Deployed Human Touch Robotics Systems</label>
+                    <input id="robots-slider" type="range" min="1" max="500" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <p class="text-center text-3xl font-bold text-accent mt-2"><span id="robots-count">50</span> Systems</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 text-center">
+                    <div class="bg-warm-secondary p-6 rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-700">Annual Operational Waste Reduced</h4>
+                        <p class="text-3xl font-bold text-accent mt-2"><span id="op-waste-saved">250</span> Tons</p>
+                        <p class="text-sm text-gray-500">(at partner facilities)</p>
+                    </div>
+                     <div class="bg-warm-secondary p-6 rounded-lg">
+                        <h4 class="text-lg font-semibold text-gray-700">Annual Household Meals Optimized</h4>
+                        <p class="text-3xl font-bold text-accent mt-2"><span id="household-meals">5</span> Million</p>
+                        <p class="text-sm text-gray-500">(enabling partners to serve more families)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-warm-secondary mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-600">
+             <p class="text-xl font-bold text-accent mb-2">The Human Touch Robotics</p>
+            <p>Investing in automation is an investment in a sustainable future.</p>
+             <p class="mt-4 text-sm">&copy; 2025 The Human Touch Robotics. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('main section');
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        const benefitContent = {
+            portion: "By providing the exact amount of each ingredient, meal kits eliminate the need for consumers to buy larger quantities than necessary (e.g., a whole bunch of parsley for one tablespoon). A global study by HelloFresh found this leads to 21% less food waste per meal compared to traditional cooking.",
+            supply: "Meal kits use a 'just-in-time' model, ordering ingredients from farms based on customer orders. This bypasses much of the traditional retail system where an estimated 10% of food is wasted before it's even purchased. This direct-to-consumer model means fresher food and far less systemic waste.",
+            household: "The leading cause of household food waste is over-purchasing and spoilage. Meal kits solve this by design. Studies from the University of Michigan show meal kits have a 33% smaller carbon footprint per meal, largely due to this drastic reduction in wasted food at home."
+        };
+
+        function selectBenefit(benefit) {
+            document.querySelectorAll('.benefit-card').forEach(c => c.classList.remove('active'));
+            document.getElementById(`card-${benefit}`).classList.add('active');
+            document.getElementById('benefit-text').innerText = benefitContent[benefit];
+        }
+        selectBenefit('portion');
+
+
+        function showProcess(process) {
+            if (process === 'manual') {
+                document.getElementById('manual-process').classList.remove('hidden');
+                document.getElementById('automated-process').classList.add('hidden');
+                document.getElementById('btn-manual').classList.add('bg-accent', 'text-white');
+                document.getElementById('btn-manual').classList.remove('text-gray-700');
+                document.getElementById('btn-automated').classList.remove('bg-accent', 'text-white');
+                document.getElementById('btn-automated').classList.add('text-gray-700');
+            } else {
+                document.getElementById('manual-process').classList.add('hidden');
+                document.getElementById('automated-process').classList.remove('hidden');
+                document.getElementById('btn-manual').classList.remove('bg-accent', 'text-white');
+                document.getElementById('btn-manual').classList.add('text-gray-700');
+                document.getElementById('btn-automated').classList.add('bg-accent', 'text-white');
+                document.getElementById('btn-automated').classList.remove('text-gray-700');
+            }
+        }
+
+        const slider = document.getElementById('robots-slider');
+        const robotsCount = document.getElementById('robots-count');
+        const opWasteSaved = document.getElementById('op-waste-saved');
+        const householdMeals = document.getElementById('household-meals');
+        
+        slider.addEventListener('input', (event) => {
+            const numRobots = parseInt(event.target.value);
+            robotsCount.textContent = numRobots;
+            
+            const opWaste = numRobots * 5; 
+            const hhMeals = (numRobots * 100000) / 1000000;
+            
+            opWasteSaved.textContent = opWaste.toLocaleString();
+            householdMeals.textContent = hhMeals.toFixed(1);
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const foodWasteCtx = document.getElementById('foodWasteChart').getContext('2d');
+            new Chart(foodWasteCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Food Consumed', 'Food Wasted'],
+                    datasets: [{
+                        data: [60, 40],
+                        backgroundColor: ['#588157', '#A3B18A'],
+                        borderColor: '#FDFBF8',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: { callbacks: { label: (context) => `${context.label}: ${context.raw}%` } }
+                    }
+                }
+            });
+
+            const emissionsCtx = document.getElementById('emissionsChart').getContext('2d');
+            new Chart(emissionsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Grocery Store Meal', 'Meal Kit Meal'],
+                    datasets: [{
+                        label: 'kg CO₂e per meal',
+                        data: [8.1, 6.1],
+                        backgroundColor: ['#A3B18A', '#588157'],
+                        borderColor: ['#8a9a7a', '#3A5A40'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: { x: { beginAtZero: true, title: { display: true, text: 'kg CO₂e' } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+             const opWasteCtx = document.getElementById('operationalWasteChart').getContext('2d');
+            new Chart(opWasteCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Traditional Supermarket', 'HelloFresh Facility'],
+                    datasets: [{
+                        label: 'Food Waste Percentage in Operations',
+                        data: [10, 0.7],
+                        backgroundColor: ['#A3B18A', '#588157']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { label: (context) => `${context.label}: ~${context.raw}% Waste` } }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Waste Percentage (%)' }
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

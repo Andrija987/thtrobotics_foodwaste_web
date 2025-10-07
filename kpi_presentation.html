@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Human Touch Robotics | Investor Impact Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Custom Purple & White -->
+    <!-- Application Structure Plan: The SPA is designed as a top-to-bottom narrative flow, mirroring a persuasive investor pitch deck. It starts with a wide lens (The Global Problem), narrows to an existing market success (The Proven Solution), introduces the critical gap in that market (The Final Waste Challenge), and presents THTR as the definitive solution. The climax is the data table, directly linking business growth to environmental impact. This linear, story-driven structure is optimal for guiding a user to a clear conclusion: THTR is a scalable, impactful investment. -->
+    <!-- Visualization & Content Choices: 
+        1. GHG Emissions Comparison (Grocery vs. Meal Kit): Goal: Compare. Viz: Horizontal Bar Chart (Chart.js). Justification: This is the most effective way to visually compare two values directly, making the 33% reduction immediately obvious.
+        2. THTR Core Technologies: Goal: Organize/Inform. Viz: Styled HTML Cards using Tailwind Grid. Justification: Using distinct cards for Dexter, Deepeye, and Noyce Brain breaks down complex technology into digestible, high-level concepts, which is ideal for an investor audience.
+        3. 4-Year Impact KPIs: Goal: Inform/Compare. Viz: Styled HTML Table. Justification: A clean, well-structured table provides a formal and direct way to present financial projections and their corresponding impact metrics, which is highly effective for an investor audience that needs to see the numbers clearly.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1d1d21;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+        }
+        .text-purple {
+            color: #612bd3;
+        }
+        .bg-light-purple {
+            background-color: #f4efff;
+        }
+        .hover\:text-purple:hover {
+            color: #612bd3;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-10 border-b border-gray-200">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-purple">The Human Touch Robotics</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#opportunity" class="text-gray-700 hover:text-purple font-medium">Opportunity</a>
+                <a href="#solution" class="text-gray-700 hover:text-purple font-medium">Our Solution</a>
+                <a href="#impact" class="text-gray-700 hover:text-purple font-medium">Impact & KPIs</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="hero" class="text-center py-16 md:py-24">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-[#1d1d21] mb-4">Investing in a <span class="text-purple">Zero-Waste</span> Future</h2>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-600">Our proprietary automation technology closes the final loop on food waste in the rapidly growing meal kit industry, creating a direct and measurable link between financial growth and positive environmental impact.</p>
+        </section>
+
+        <div class="bg-white rounded-xl border border-gray-200 p-8 md:p-12 mb-16">
+            <section id="opportunity">
+                <h3 class="text-3xl font-bold text-center mb-2 text-[#1d1d21]">The Market Opportunity</h3>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">The global food system is fundamentally inefficient, but a proven, more sustainable model is scaling rapidly. We are positioned to solve its final challenge.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <div>
+                        <h4 class="text-xl font-semibold mb-3 text-[#1d1d21]">The Problem: Systemic Waste</h4>
+                        <p class="text-gray-700 mb-4">Traditional grocery retail creates waste at every level, from overstocking to consumer over-purchasing. This results in <span class="font-bold">1.3 billion tons</span> of food wasted annually, generating <span class="font-bold">8-10% of global greenhouse emissions</span>.</p>
+                        <h4 class="text-xl font-semibold mb-3 text-[#1d1d21]">The Proven Solution: Meal Kits</h4>
+                        <p class="text-gray-700">Meal kits are structurally superior, using a data-driven, make-to-order supply chain and pre-portioned ingredients. This model drastically reduces waste at both the retail and consumer levels.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold text-center mb-4 text-[#1d1d21]">GHG Emissions per Meal ($CO_2e$)</h4>
+                        <div class="chart-container">
+                            <canvas id="emissionsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="bg-light-purple rounded-xl p-8 md:p-12 mb-16">
+            <section id="solution">
+                <h3 class="text-3xl font-bold text-center mb-2 text-[#1d1d21]">The THTR Advantage</h3>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">The final frontier of waste in the meal kit industry is the fulfillment center. Manual packing is slow, error-prone, and creates operational spoilage. We solve this with a proprietary, adaptive robotic cell.</p>
+
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="text-2xl font-bold mb-2 text-purple">Dexter</h4>
+                        <p class="font-semibold text-gray-800 mb-2">Adaptive Robotic Gripper</p>
+                        <p class="text-gray-700 text-sm">Gently handles thousands of varied and delicate fresh food items, virtually eliminating damage during picking.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="text-2xl font-bold mb-2 text-purple">Deepeye</h4>
+                        <p class="font-semibold text-gray-800 mb-2">AI-Powered Vision System</p>
+                        <p class="text-gray-700 text-sm">Intelligently picks from cluttered bins and performs 100% quality control, ensuring recipe accuracy and reducing spoilage.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h4 class="text-2xl font-bold mb-2 text-purple">Noyce Brain</h4>
+                        <p class="font-semibold text-gray-800 mb-2">Advanced Path Planner</p>
+                        <p class="text-gray-700 text-sm">Achieves high-speed, collaborative throughput safely, maximizing efficiency and enabling our partners to scale.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <div class="bg-white rounded-xl border border-gray-200 p-8 md:p-12">
+            <section id="impact">
+                <h3 class="text-3xl font-bold text-center mb-2 text-[#1d1d21]">The Investment Thesis: Impact as a Multiplier</h3>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">Our business model creates a virtuous cycle: our technology makes partners more efficient, fueling their growth. As they scale, they displace more of the wasteful traditional grocery model. <span class="font-bold">Every robotic cell we deploy has a compounding positive environmental impact.</span></p>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm align-middle">
+                        <thead>
+                            <tr class="border-b-2 border-gray-200">
+                                <th class="p-3 text-left font-semibold text-gray-700">Impact KPI</th>
+                                <th class="p-3 text-left font-semibold text-gray-700">Metric</th>
+                                <th class="p-3 text-right font-semibold text-gray-700">2025</th>
+                                <th class="p-3 text-right font-semibold text-gray-700">2026</th>
+                                <th class="p-3 text-right font-semibold text-gray-700">2027</th>
+                                <th class="p-3 text-right font-semibold text-gray-700">2028</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-800">
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-bold text-purple">Business Growth</td>
+                                <td class="p-3">Cumulative Robotic Cells Deployed</td>
+                                <td class="p-3 text-right font-medium">10</td>
+                                <td class="p-3 text-right font-medium">30</td>
+                                <td class="p-3 text-right font-medium">60</td>
+                                <td class="p-3 text-right font-medium">100</td>
+                            </tr>
+                            <tr class="bg-light-purple">
+                                <td class="p-3 font-bold text-purple">Direct Impact</td>
+                                <td class="p-3">Food Waste Prevented (in Partner Facilities)</td>
+                                <td class="p-3 text-right font-medium">36 tons</td>
+                                <td class="p-3 text-right font-medium">108 tons</td>
+                                <td class="p-3 text-right font-medium">216 tons</td>
+                                <td class="p-3 text-right font-medium">360 tons</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-bold text-purple">Catalytic Impact</td>
+                                <td class="p-3">Additional Household Meals Enabled</td>
+                                <td class="p-3 text-right font-medium">2.0M</td>
+                                <td class="p-3 text-right font-medium">6.0M</td>
+                                <td class="p-3 text-right font-medium">12.0M</td>
+                                <td class="p-3 text-right font-medium">20.0M</td>
+                            </tr>
+                            <tr class="bg-light-purple">
+                                <td class="p-3 font-bold text-purple">Environmental Impact</td>
+                                <td class="p-3">Total CO₂e Emissions Avoided</td>
+                                <td class="p-3 text-right font-bold text-purple">4,085 metric tons</td>
+                                <td class="p-3 text-right font-bold text-purple">12,255 metric tons</td>
+                                <td class="p-3 text-right font-bold text-purple">24,510 metric tons</td>
+                                <td class="p-3 text-right font-bold text-purple">40,850 metric tons</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <p class="text-xs text-gray-500 mt-4 text-center">Assumptions: Calculations are based on an average throughput per robotic cell, a 90% reduction of a 2% baseline operational waste rate, and the known 2 kg CO₂e savings per meal kit vs. a grocery meal.</p>
+            </section>
+        </div>
+
+    </main>
+    
+    <footer class="text-center mt-16 py-10 border-t border-gray-200">
+        <p class="font-bold text-lg text-purple">The Human Touch Robotics</p>
+        <p class="text-sm text-gray-500">Contact us for full investment details.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chartTextColor = '#1d1d21';
+            const chartGridColor = '#e2e8f0';
+            const primaryColor = '#612bd3';
+            const secondaryColor = '#c4b5fd';
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                return Array.isArray(label) ? label.join(' ') : label;
+            };
+
+            const emissionsCtx = document.getElementById('emissionsChart').getContext('2d');
+            new Chart(emissionsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Traditional Grocery Meal', 'Meal Kit Meal'],
+                    datasets: [{
+                        label: 'kg CO₂e per meal',
+                        data: [8.1, 6.1],
+                        backgroundColor: [secondaryColor, primaryColor],
+                        borderRadius: 4,
+                        barPercentage: 0.6,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: { color: chartGridColor },
+                            ticks: { color: chartTextColor, font: { weight: '600' } }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: chartTextColor, font: { size: 14, weight: '500' } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { title: tooltipTitleCallback } }
+                    }
+                }
+            });
+            
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = e.target.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        const offset = document.querySelector('header').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - offset;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

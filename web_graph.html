@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fresh Revolution | Reducing Food Waste with Meal Kits & Automation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Brilliant Blues -->
+    <!-- Application Structure Plan: This infographic follows a clear, linear narrative designed for storytelling. 1. The Hook: A bold title and an alarming statistic to grab attention. 2. The Problem: Visualizing the scale of food waste and its environmental cost. 3. The Solution: Introducing meal kits as a hero, with comparative data to prove their effectiveness. 4. The Amplifier: Showcasing how The Human Touch Robotics enhances the solution. 5. The Impact: A forward-looking summary of the scalable, positive change. This top-to-bottom flow is ideal for an infographic, guiding the user through a logical argument from problem to impact without requiring complex navigation. -->
+    <!-- Visualization & Content Choices: 
+        1. US Food Waste: Goal: Inform. Viz: Donut Chart (Chart.js). Justification: A donut chart provides an immediate, powerful visual of a part-to-whole relationship, making the 40% waste statistic instantly understandable.
+        2. Emissions Comparison: Goal: Compare. Viz: Horizontal Bar Chart (Chart.js). Justification: A bar chart is the clearest way to compare two distinct values (Grocery vs. Meal Kit emissions), and making it horizontal provides ample room for labels. The long labels are wrapped as required.
+        3. Meal Kit Benefits: Goal: Organize/Inform. Viz: Styled HTML/CSS Cards. Justification: Using distinct cards with large numbers and icons (Unicode) breaks down the reasons for the emission savings into digestible, memorable points, which is more effective for an infographic than a complex chart.
+        4. Packing Process Flow: Goal: Organize/Compare. Viz: Structured HTML/CSS Diagram (Flexbox). Justification: This "before-and-after" diagram visually contrasts the manual and automated processes, clearly highlighting the points of improvement (precision, quality control) as required by the no-Mermaid/no-SVG constraint.
+        5. Impact Metrics: Goal: Inform. Viz: Big Numbers in styled HTML. Justification: Large, bold typography for key metrics provides a strong, conclusive summary of the technology's impact, acting as a powerful final takeaway for the user.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #003F5C;
+            color: #FFFFFF;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .text-highlight {
+            color: #FFA600;
+        }
+        .bg-card {
+            background-color: #2F4B7C;
+        }
+        .bg-accent {
+            background-color: #FFA600;
+        }
+        .section-divider {
+            height: 4px;
+            width: 100px;
+            margin: 1.5rem auto;
+            background-color: #FFA600;
+        }
+        .process-step {
+            background-color: #003F5C;
+            border: 2px solid #2F4B7C;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 0.5rem;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .process-arrow {
+            font-size: 2.5rem;
+            color: #FFA600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <main class="container mx-auto px-6 py-12 md:py-20">
+
+        <header class="text-center mb-16 md:mb-24">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4">THE <span class="text-highlight">FRESH</span> REVOLUTION</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300">How Meal Kits and Automation are Teaming Up to Drastically Reduce Food Waste and Reshape Our Environmental Footprint.</p>
+        </header>
+
+        <section id="problem" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center">The Hidden Cost on Our Plates</h2>
+            <div class="section-divider"></div>
+            <p class="text-center max-w-2xl mx-auto mb-12 text-gray-300">Before we can find a solution, we must understand the scale of the problem. The traditional grocery model, from farm to fridge, is burdened with inefficiencies that result in staggering amounts of waste.</p>
+            <div class="grid md:grid-cols-5 gap-8 items-center">
+                <div class="md:col-span-3 bg-card p-6 rounded-xl shadow-2xl">
+                    <h3 class="text-2xl font-bold text-center mb-4">Grocery vs. Meal Kit Emissions</h3>
+                     <p class="text-center text-sm text-gray-300 mb-4">A University of Michigan study found meal kits have a 33% smaller carbon footprint on average, primarily due to reducing food waste.</p>
+                    <div class="chart-container" style="max-width: none; height: 300px;">
+                        <canvas id="emissionsChart"></canvas>
+                    </div>
+                </div>
+                <div class="md:col-span-2 bg-card p-6 rounded-xl shadow-2xl">
+                    <h3 class="text-2xl font-bold text-center mb-4">U.S. Food Supply Wasted</h3>
+                    <p class="text-center text-sm text-gray-300 mb-4">An estimated 40% of all food produced in the United States goes uneaten.</p>
+                    <div class="chart-container">
+                        <canvas id="foodWasteChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center">A Structurally Smarter Solution</h2>
+            <div class="section-divider"></div>
+            <p class="text-center max-w-2xl mx-auto mb-12 text-gray-300">Meal kit companies like HelloFresh redesign the food journey from the ground up. Their model isn't just convenient—it's inherently less wasteful by design.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-card p-8 rounded-xl shadow-2xl text-center">
+                    <div class="text-5xl mb-4">📦</div>
+                    <h3 class="text-2xl font-bold mb-2">Perfect Portions</h3>
+                    <p class="text-gray-300">By sending only what's needed for a recipe, meal kits cut household food waste by an average of <span class="text-highlight font-bold text-lg">21%</span>, preventing over-buying at the grocery store.</p>
+                </div>
+                <div class="bg-card p-8 rounded-xl shadow-2xl text-center">
+                    <div class="text-5xl mb-4">🚚</div>
+                    <h3 class="text-2xl font-bold mb-2">Direct Supply Chain</h3>
+                    <p class="text-gray-300">Food goes directly from farm to fulfillment center to home, slashing waste in the retail stage where supermarkets lose ~<span class="text-highlight font-bold text-lg">10%</span> of their food supply.</p>
+                </div>
+                <div class="bg-card p-8 rounded-xl shadow-2xl text-center">
+                    <div class="text-5xl mb-4">🌍</div>
+                    <h3 class="text-2xl font-bold mb-2">Lower Footprint</h3>
+                    <p class="text-gray-300">The combination of less food waste and an efficient supply chain results in <span class="text-highlight font-bold text-lg">2kg</span> less CO₂ equivalent emissions per meal compared to a store-bought alternative.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="robotics" class="mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center">The Amplifier: Precision Automation</h2>
+            <div class="section-divider"></div>
+            <p class="text-center max-w-2xl mx-auto mb-12 text-gray-300">The Human Touch Robotics elevates the meal kit model. Our robotic systems bring unparalleled speed and accuracy to the packing process, minimizing errors and operational waste to near-zero.</p>
+            <div class="bg-card p-8 rounded-xl shadow-2xl">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-center mb-6">Before: Manual Packing</h3>
+                        <div class="space-y-4">
+                            <div class="process-step">Manual Sorting & Portioning<br><span class="text-sm text-red-400">High potential for error</span></div>
+                            <div class="process-arrow text-center">↓</div>
+                            <div class="process-step">Manual Quality Check<br><span class="text-sm text-red-400">Inconsistent & slow</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-center mb-6 text-highlight">After: Human Touch Robotics</h3>
+                         <div class="space-y-4">
+                            <div class="process-step border-highlight">Robotic Sorting & Portioning<br><span class="text-sm text-green-400">Guaranteed precision</span></div>
+                            <div class="process-arrow text-center">↓</div>
+                            <div class="process-step border-highlight">AI-Powered Quality Control<br><span class="text-sm text-green-400">100% item verification</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="impact">
+            <h2 class="text-3xl md:text-4xl font-bold text-center">Our Scalable Impact</h2>
+            <div class="section-divider"></div>
+            <p class="text-center max-w-2xl mx-auto mb-12 text-gray-300">By partnering with leading meal kit companies, our technology creates a ripple effect. More efficiency means more growth, and more growth means a greater positive impact on the planet.</p>
+            <div class="grid md:grid-cols-2 gap-8 text-center">
+                <div class="bg-card p-8 rounded-xl shadow-2xl">
+                    <h3 class="text-2xl font-bold mb-2">Reduced Operational Spoilage</h3>
+                    <p class="text-6xl font-extrabold text-highlight">98%</p>
+                    <p class="text-gray-300">Our systems reduce packing errors and ingredient mismatches, cutting operational food waste.</p>
+                </div>
+                <div class="bg-card p-8 rounded-xl shadow-2xl">
+                    <h3 class="text-2xl font-bold mb-2">Enabling a Greener Choice</h3>
+                    <p class="text-6xl font-extrabold text-highlight">10M+</p>
+                    <p class="text-gray-300">Meals packed annually by our systems, empowering more families to reduce their food footprint.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center mt-16 md:mt-24 py-8 border-t border-gray-700">
+        <p class="font-bold text-lg">The Human Touch Robotics</p>
+        <p class="text-sm text-gray-400">Engineering a more sustainable food system.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chartTextColor = '#FFFFFF';
+            const chartGridColor = 'rgba(255, 255, 255, 0.2)';
+
+            const foodWasteCtx = document.getElementById('foodWasteChart').getContext('2d');
+            new Chart(foodWasteCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Food Wasted', 'Food Consumed'],
+                    datasets: [{
+                        data: [40, 60],
+                        backgroundColor: ['#FFA600', '#665191'],
+                        borderColor: '#2F4B7C',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: { color: chartTextColor, font: { size: 14 } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: (tooltipItems) => {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    return Array.isArray(label) ? label.join(' ') : label;
+                                },
+                                label: (context) => `${context.formattedValue}%`
+                            }
+                        }
+                    }
+                }
+            });
+
+            const emissionsCtx = document.getElementById('emissionsChart').getContext('2d');
+            new Chart(emissionsCtx, {
+                type: 'bar',
+                data: {
+                    labels: [['Traditional Grocery', 'Store Meal'], ['Meal Kit', 'Meal']],
+                    datasets: [{
+                        label: 'kg CO₂e per meal',
+                        data: [8.1, 6.1],
+                        backgroundColor: ['#665191', '#FFA600'],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: { 
+                        x: { 
+                            beginAtZero: true, 
+                            grid: { color: chartGridColor },
+                            ticks: { color: chartTextColor, font: { size: 14 } }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: chartTextColor, font: { size: 14, weight: 'bold' } }
+                        }
+                    },
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: (tooltipItems) => {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    return Array.isArray(label) ? label.join(' ') : label;
+                                },
+                                label: (context) => `${context.raw} kg CO₂e`
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
